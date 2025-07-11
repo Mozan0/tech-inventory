@@ -41,8 +41,10 @@ items:
     provisioner: pd.csi.storage.gke.io
     parameters:
       type: pd-extreme
-      replication-type: none
-      provisioned-iops-on-create: '10000'
+      # Minimum required disk space for iops = 10000 value in extreme disks is 84GB
+      # Under this disk size it will not work
+      # Calculation formula = 0.6 x Disk GB =< IOPS value >= 120 x Disk GB
+      provisioned-iops-on-create: "10000"
     allowVolumeExpansion: true
     reclaimPolicy: Retain
     volumeBindingMode: WaitForFirstConsumer
